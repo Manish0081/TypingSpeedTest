@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>
+		
+		</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet">
+		<style>
+		*{
+			padding:0;
+			margin:0;
+			box-sizing:border-box;
+			font-family: 'Roboto', sans-serif;
+		}
+		.mainDiv{
+			width:100%;
+			height:100vh;
+			position:relative;
+			background:#3498db;
+		}
+		.centerDiv{
+			position:absolute;
+			top:50%;
+			left:50%;
+			transform:translate(-50%,-50%);
+			text-align:center;
+			
+		}
+		h1{
+			text-transform:capitalize;
+			margin-bottom:3px;
+			color:#ecf0f1;
+			text-shdow:1px 2px 3px #2980be;
+			font-size:2.1rem;
+		}
+		h2{
+			text-align:center;
+		}
+		textarea{
+			background-color:#444;
+			box-shadow:0 0 1px rgb(0,0,0,0.2);
+			border-radius:10px 10px 0 0 ;
+			border: 20px solid #34495e;
+			color:white;
+			font-size:1.3rem;
+		}
+		.mainbtn{
+			padding:10px 20px;
+			border-radius:20px;
+			border:5px solid #2980b9;
+			background:ecf0f1;
+			font-size:1rem;
+		}
+		</style>
+		
+	</head>
+	<body>
+		<div class="mainDiv">
+			<div class="centerDiv">
+				<h1>Welcom to Typing Speed Test </h1>
+				<br>
+				<h2 id="msg"></h2><br>
+				<textarea id="myWords" cols="100" rows="10" placeholder="Remembar, to be Nice"></textarea>
+				<br>
+				<button id="btn" class="mainbtn">Start</button>
+			</div>
+		</div>
+		
+		<script>
+		
+		
+		const setOfWords = [
+			"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque",
+			"Penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.",
+			"Pliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede",
+			"Mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,"
+		];
+		
+		const msg = document.getElementById('msg');
+		const typeWords = document.getElementById('myWords');
+		const btn = document.getElementById('btn');
+		let startTime, endTime;
+		
+		const playGame = () => {
+			let randomNumber = Math.floor(Math.random()*setOfWords.length);
+			msg.innerText  = setOfWords[randomNumber];
+			
+			let date = new Date();
+			StartTime = date.getTime();
+			btn.innerText = "Done";
+			
+		}
+		
+		const endPlay = () => {
+			let date = new Date();
+			endTime = date.getTime();
+			let totalTime = ((endTime - StartTime)/1000);
+			
+			
+			let totalStr = typeWords.value;
+			let wordCount = wordCounter(totalStr);
+			
+			let Speed = Math.round((wordCount / totalTime) * 60);
+			let finelMsg = " You typed total at " +Speed+ " words per minutes ";
+			finelMsg += compareWords(msg.innerText,totalStr)
+			
+			msg.innerText = finelMsg;
+		}
+		
+		const compareWords = (str1, str2) => {
+			let word1 = str1.split(" ");
+			let word2 = str2.split(" ");
+			let cnt = 0;
+			
+			word1.forEach(function(value, index){
+				if(value == word2[index]){
+					cnt++;
+				}
+			})
+			
+			let errorWords = (word1.length - cnt);
+			return (cnt +  " currect out of " + word1.length + " words and the total number of  error  are " + errorWords + ".")
+			
+		}
+		const wordCounter = (str) => {
+			let responce = str.split(" ").length;
+			console.log(responce)
+			return responce;
+		}
+		btn.addEventListener('click', function(){
+		
+			if(this.innerText == 'Start'){
+				typeWords.disabled = false;
+				playGame();
+			}else if(this.innerText == "Done"){
+				typeWords.disabled = true;
+				btn.innerText = "Start";
+				endPlay();
+			}
+		})
+		
+		</script>
+	</body>
+</html>
